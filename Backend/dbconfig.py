@@ -5,7 +5,7 @@ from sqlalchemy.pool import NullPool
 
 POSTGRES_URL="localhost"
 POSTGRES_USER="postgres"
-POSTGRES_PASSWORD="Aditya%402002"
+POSTGRES_PASSWORD=os.getenv("POSTGRES_PASSWORD")
 POSTGRES_DB="jf_db"
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PASSWORD,url=POSTGRES_URL,db=POSTGRES_DB)
 app.config['SQLALCHEMY_DATABASE_URI']=DB_URL

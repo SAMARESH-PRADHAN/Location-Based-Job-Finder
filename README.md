@@ -57,11 +57,11 @@
 
 ### 🧑‍💼 Admin Panel - Dashboard
 
-![Admin](screenshots/adminpanel.jpg)
+![Admin](Screenshots/adminpanel.jpg)
 
 ### 🏢 Agency Panel - Manage Jobs
 
-![Agency](screenshots/agency_panel.jpg)
+![Agency](Screenshots/agency_panel.jpg)
 
 ---
 

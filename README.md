@@ -24,7 +24,6 @@
 - **Backend**: Python Flask
 - **Database**: PostgreSQL
 - **Map Library**: Leaflet.js
-- **Authentication**: OTP via Email
 - **Charting/Analytics**: Chart.js (Optional for admin stats)
 
 ---
@@ -33,35 +32,35 @@
 
 ### 🏠 Landing Page
 
-![Landing Page](Screenshots/landing_page.jpg)
+![Landing Page](.assets/Screenshots/landing_page.jpg)
 
 ### 🏠 Contact Page
 
-![Contact Page](Screenshots/contact.jpg)
+![Contact Page](.assets/Screenshots/contact.jpg)
 
 ### 🏠 Home Page
 
-![Home Page](Screenshots/home_page.jpg)
+![Home Page](.assets/Screenshots/home_page.jpg)
 
 ### 🗺️ Job Map View
 
-![Map](Screenshots/mapview.jpg)
+![Map](.assets/Screenshots/mapview.jpg)
 
 ### 📋 Job Listings with Filter
 
-![Job List](Screenshots/joblist.jpg)
+![Job List](.assets/Screenshots/joblist.jpg)
 
 ### 🏠 Feedback Page
 
-![Feedback Page](Screenshots/feedback.jpg)
+![Feedback Page](.assets/Screenshots/feedback.jpg)
 
 ### 🧑‍💼 Admin Panel - Dashboard
 
-![Admin](Screenshots/adminpanel.jpg)
+![Admin](.assets/Screenshots/adminpanel.jpg)
 
 ### 🏢 Agency Panel - Manage Jobs
 
-![Agency](Screenshots/agency_panel.jpg)
+![Agency](.assets/Screenshots/agency_panel.jpg)
 
 ---
 

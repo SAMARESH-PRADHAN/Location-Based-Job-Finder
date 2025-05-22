@@ -33,23 +33,35 @@
 
 ### 🏠 Landing Page
 
-![Landing Page](screenshots/landing.png)
+![Landing Page](Screenshots/landing_page.jpg)
+
+### 🏠 Contact Page
+
+![Contact Page](Screenshots/contact.jpg)
+
+### 🏠 Home Page
+
+![Home Page](Screenshots/home_page.jpg)
 
 ### 🗺️ Job Map View
 
-![Map](screenshots/map.png)
+![Map](Screenshots/mapview.jpg)
 
 ### 📋 Job Listings with Filter
 
-![Job List](screenshots/joblist.png)
+![Job List](Screenshots/joblist.jpg)
+
+### 🏠 Feedback Page
+
+![Feedback Page](Screenshots/feedback.jpg)
 
 ### 🧑‍💼 Admin Panel - Dashboard
 
-![Admin](screenshots/admin_dashboard.png)
+![Admin](screenshots/adminpanel.jpg)
 
 ### 🏢 Agency Panel - Manage Jobs
 
-![Agency](screenshots/agency_panel.png)
+![Agency](screenshots/agency_panel.jpg)
 
 ---
 

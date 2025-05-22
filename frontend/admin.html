@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.8/dist/countUp.min.js"></script>
+
+
+ <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header id="header"></header>
+
+    <main>
+<div class="admin-container">
+  <div class="sidebar">
+    <h4>Admin Panel</h4>
+    <button onclick="loadPage('usermanagement.html')">User Management</button>
+    <button onclick="loadPage('agencymanagment.html')">Agency Management</button>
+    <button onclick="loadPage('locationmanagment.html')">Location Management</button>
+    <button onclick="loadPage('categorymanagment.html')">Category Management</button>
+    <button onclick="loadPage('jobmanagement.html')">Job Management</button>
+    <button onclick="loadPage('contactmanagment.html')">Contact Management</button>
+    <button onclick="loadPage('feedbackmanagment.html')">Feedback Management</button>
+  </div>
+
+  <div class="content" id="mainContent">
+    <div class="container-fluid">
+      <h2 class="mb-5 text-center animate__animated animate__fadeInDown display-5 fw-bold">Admin Dashboard</h2>
+  
+      <div class="row g-4 mb-4" id="top-boxes">
+        <div class="col-md-4 col-lg-2">
+          <div class="dashboard-card card-count">
+            <h5>Total Users</h5>
+            <h3 id="totalUsers">0</h3>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+          <div class="dashboard-card card-count">
+            <h5>Total Agencies</h5>
+            <h3 id="totalAgencies">0</h3>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+          <div class="dashboard-card card-count">
+            <h5>Total Locations</h5>
+            <h3 id="totalLocations">0</h3>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+          <div class="dashboard-card card-count">
+            <h5>Total Categories</h5>
+            <h3 id="totalCategories">0</h3>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+          <div class="dashboard-card card-count">
+            <h5>Total Jobs</h5>
+            <h3 id="totalJobs">0</h3>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row mt-4">
+        <!-- Feedback Charts -->
+        <div class="col-md-6" id="feedback-Chart">
+          <div class="chart-card animate__animated animate__fadeInLeft">
+            <h5 class="text-dark text-center fw-bold mb-3">Feedback Ratings</h5>
+            <ul class="nav nav-tabs justify-content-center mb-3" id="feedbackTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="user-feedback-tab" data-bs-toggle="tab" data-bs-target="#userFeedback" type="button" role="tab">User</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="agency-feedback-tab" data-bs-toggle="tab" data-bs-target="#agencyFeedback" type="button" role="tab">Agency</button>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="userFeedback" role="tabpanel">
+                <canvas id="userFeedbackChart" height="200"></canvas>
+              </div>
+              <div class="tab-pane fade" id="agencyFeedback" role="tabpanel">
+                <canvas id="agencyFeedbackChart" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Registration Charts -->
+        <div class="col-md-6">
+          <div class="chart-card animate__animated animate__fadeInRight chart-card-r">
+            <h5 class="text-dark text-center fw-bold mb-3">Registrations</h5>
+            <ul class="nav nav-tabs justify-content-center mb-3" id="regTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="user-reg-tab" data-bs-toggle="tab" data-bs-target="#userReg" type="button" role="tab">User</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="agency-reg-tab" data-bs-toggle="tab" data-bs-target="#agencyReg" type="button" role="tab">Agency</button>
+              </li>
+            </ul>
+            
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="userReg" role="tabpanel">
+                <div class="text-center mb-2">
+                  <button class="btn btn-outline-primary btn-sm me-2" onclick="downloadUserCSV()">Download CSV</button>
+                  <button class="btn btn-outline-success btn-sm" onclick="downloadUserChartImage()">Download Image</button>
+                </div>
+                <div class="mb-3 d-flex justify-content-center align-items-center gap-2">
+                  <input type="date" id="userstartDate" class="form-control" style="max-width: 150px;">
+                  <input type="date" id="userendDate" class="form-control" style="max-width: 150px;">
+                  <button class="btn btn-dark" onclick="filterUserChart()">Filter</button>
+                </div>
+                <canvas id="userRegChart"></canvas>
+              </div>
+              <div class="tab-pane fade" id="agencyReg" role="tabpanel">
+                <div class="text-center mb-2">
+                  <button class="btn btn-outline-primary btn-sm me-2" onclick="downloadAgencyCSV()">Download CSV</button>
+                  <button class="btn btn-outline-success btn-sm" onclick="downloadAgencyChartImage()">Download Image</button>
+                </div>
+                <div class="mb-3 d-flex justify-content-center align-items-center gap-2">
+                  <input type="date" id="agencystartDate" class="form-control" style="max-width: 150px;">
+                  <input type="date" id="agencyendDate" class="form-control" style="max-width: 150px;">
+                  <button class="btn btn-dark" onclick="filterAgencyChart()">Filter</button>
+                </div>
+                <canvas id="agencyRegChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+   
+</div>
+</main>
+
+<footer id="footer"></footer>
+
+
+<!-- Chart.js & Animations -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<script src="js/adminpanel.js"></script>
+<script>
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll('.dashboard-card, .chart-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add("visible");
+          }, i * 150); // Delay between cards
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+  
+    cards.forEach(card => observer.observe(card));
+  });
+  
+
+
+
+
+$(document).ready(function () {
+    // Load Counts
+    $.ajax({
+        url: 'http://127.0.0.1:5000/dashboard/counts',
+        method: 'GET',
+        success: function (res) {
+            $('#totalUsers').text(res.users);
+            $('#totalAgencies').text(res.agencies);
+            $('#totalLocations').text(res.locations);
+            $('#totalCategories').text(res.categories);
+            $('#totalJobs').text(res.jobs);
+        }
+    });
+
+    // Load Feedback Stats
+    $.ajax({
+        url: 'http://127.0.0.1:5000/dashboard/feedbacks',
+        method: 'GET',
+        success: function (res) {
+            const userFeedback = res.user_feedback;
+            const agencyFeedback = res.agency_feedback;
+
+            // Convert to arrays
+            const userLabels = Object.keys(userFeedback);
+            const userData = Object.values(userFeedback);
+            const agencyLabels = Object.keys(agencyFeedback);
+            const agencyData = Object.values(agencyFeedback);
+
+            // User Feedback Chart
+            new Chart(document.getElementById("userFeedbackChart"), {
+                type: 'bar',
+                data: {
+                    labels: userLabels,
+                    datasets: [{
+                        label: "User Feedback",
+                        backgroundColor: ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db'],
+                        data: userData
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Agency Feedback Chart
+            new Chart(document.getElementById("agencyFeedbackChart"), {
+                type: 'bar',
+                data: {
+                    labels: agencyLabels,
+                    datasets: [{
+                        label: "Agency Feedback",
+                        backgroundColor: ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db'],
+                        data: agencyData
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+
+let userChartInstance;
+let agencyChartInstance;
+
+$(document).ready(function () {
+  // Load default charts
+  $.ajax({
+    url: 'http://127.0.0.1:5000/dashboard/registrations',
+    method: 'GET',
+    success: function (res) {
+      const userLabels = res.user_regs.map(r => r.date);
+      const userData = res.user_regs.map(r => r.count);
+
+      const agencyLabels = res.agency_regs.map(r => r.date);
+      const agencyData = res.agency_regs.map(r => r.count);
+
+      userChartInstance = new Chart(document.getElementById("userRegChart"), {
+        type: 'line',
+        data: {
+          labels: userLabels,
+          datasets: [{
+            label: "User Registrations",
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            data: userData,
+            fill: true
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+
+      agencyChartInstance = new Chart(document.getElementById("agencyRegChart"), {
+        type: 'line',
+        data: {
+          labels: agencyLabels,
+          datasets: [{
+            label: "Agency Registrations",
+            backgroundColor: "rgba(255, 206, 86, 0.2)",
+            borderColor: "rgba(255, 206, 86, 1)",
+            data: agencyData,
+            fill: true
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
+  });
+});
+
+// Filter function for user registration chart
+function filterUserChart() {
+  const start = $('#userstartDate').val();
+  const end = $('#userendDate').val();
+  if (!start || !end) return alert("Please select both dates");
+
+  $.ajax({
+    url: 'http://127.0.0.1:5000/dashboard/registrations/filter',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({ start_date: start, end_date: end, role_id: 2 }),
+    success: function (res) {
+      const labels = res.data.map(r => r.date);
+      const data = res.data.map(r => r.count);
+
+      userChartInstance.destroy();
+      userChartInstance = new Chart(document.getElementById("userRegChart"), {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "User Registrations",
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            data: data,
+            fill: true
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
+  });
+}
+
+// Filter function for agency registration chart
+function filterAgencyChart() {
+  const start = $('#agencystartDate').val();
+  const end = $('#agencyendDate').val();
+  if (!start || !end) return alert("Please select both dates");
+
+  $.ajax({
+    url: 'http://127.0.0.1:5000/dashboard/registrations/filter',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({ start_date: start, end_date: end, role_id: 3 }),
+    success: function (res) {
+      const labels = res.data.map(r => r.date);
+      const data = res.data.map(r => r.count);
+
+      agencyChartInstance.destroy();
+      agencyChartInstance = new Chart(document.getElementById("agencyRegChart"), {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Agency Registrations",
+            backgroundColor: "rgba(255, 206, 86, 0.2)",
+            borderColor: "rgba(255, 206, 86, 1)",
+            data: data,
+            fill: true
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
+  });
+}
+// Function to download the User Registration chart data as CSV
+function downloadUserCSV() {
+  const labels = userChartInstance.data.labels;
+  const data = userChartInstance.data.datasets[0].data;
+  let csvContent = "Date,User Registrations\n";
+
+  labels.forEach((label, index) => {
+    csvContent += `${label},${data[index]}\n`;
+  });
+
+  // Trigger the download of the CSV file
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'user_registrations.csv';
+  link.click();
+}
+
+// Function to download the User Registration chart as an image
+function downloadUserChartImage() {
+  const imageUrl = userChartInstance.toBase64Image();
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = 'user_registrations_chart.png';
+  link.click();
+}
+
+// Function to download the Agency Registration chart data as CSV
+function downloadAgencyCSV() {
+  const labels = agencyChartInstance.data.labels;
+  const data = agencyChartInstance.data.datasets[0].data;
+  let csvContent = "Date,Agency Registrations\n";
+
+  labels.forEach((label, index) => {
+    csvContent += `${label},${data[index]}\n`;
+  });
+
+  // Trigger the download of the CSV file
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'agency_registrations.csv';
+  link.click();
+}
+
+// Function to download the Agency Registration chart as an image
+function downloadAgencyChartImage() {
+  const imageUrl = agencyChartInstance.toBase64Image();
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = 'agency_registrations_chart.png';
+  link.click();
+}
+
+</script>
+</body>
+</html>

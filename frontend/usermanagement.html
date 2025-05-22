@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      #addUserBtn {
+       background: linear-gradient(135deg, #6e8efb, #a777e3);
+       color: white;
+       border: none;
+       padding: 10px 20px;
+       font-size: 16px;
+       font-weight: bold;
+       border-radius: 50px;
+       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+       transition: all 0.3s ease-in-out;
+       position: relative;
+       overflow: hidden;
+   }
+
+   #addUserBtn:hover {
+       background: linear-gradient(135deg, #a777e3, #6e8efb);
+       transform: translateY(-3px);
+       box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+       color: rgb(193, 219, 154);
+   }
+
+   #addUserBtn::after {
+       content: '';
+       position: absolute;
+       width: 100%;
+       height: 300%;
+       top: -100%;
+       left: -100%;
+       background: rgba(255, 255, 255, 0.2);
+       transform: rotate(45deg);
+       transition: all 0.75s ease-in-out;
+   }
+
+   #addUserBtn:hover::after {
+       left: 200%;
+       top: 200%;
+       color: rgb(0, 0, 0);
+   }
+   </style>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h2 class="text-center">User Management</h2>
+      <button id="addUserBtn" class="btn mb-3"> <i class="fas fa-plus-circle mr-2"></i> Add User</button>
+
+      <table class="table table-bordered text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Mobile No</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New User</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="text"
+              id="addUserName"
+              class="form-control mb-2"
+              placeholder="Name"
+            />
+            <input
+              type="email"
+              id="addUserEmail"
+              class="form-control mb-2"
+              placeholder="Email"
+            />
+            <input
+              type="text"
+              id="addUserAddress"
+              class="form-control mb-2"
+              placeholder="Address"
+            />
+            <input
+              type="text"
+              id="addUserMobile"
+              class="form-control mb-2"
+              placeholder="Mobile No"
+            />
+            <input
+              type="password"
+              id="addUserPassword"
+              class="form-control mb-2"
+              placeholder="Password"
+            />
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" id="saveUserBtn">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit User</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="editUserId" />
+            <input
+              type="text"
+              id="editUserName"
+              class="form-control mb-2"
+              placeholder="Name"
+            />
+            <input
+              type="email"
+              id="editUserEmail"
+              class="form-control mb-2"
+              placeholder="Email"
+            />
+            <input
+              type="text"
+              id="editUserAddress"
+              class="form-control mb-2"
+              placeholder="Address"
+            />
+            <input
+              type="text"
+              id="editUserMobile"
+              class="form-control mb-2"
+              placeholder="Mobile No"
+            />
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" id="updateUserBtn">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function fetchUsers() {
+        $.get("http://127.0.0.1:5000/users", function (users) {
+          let tableBody = "";
+          users.forEach((user, index) => {
+            let statusColor = user.is_active ? "btn-success" : "btn-danger";
+            let statusText = user.is_active ? "Active" : "Deactivate";
+            tableBody += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>${user.address}</td>
+                            <td>${user.mobile_no}</td>
+                            <td><button class="btn ${statusColor} toggle-status" data-id="${user.user_id}">${statusText}</button></td>
+                            <td>
+                                <button class="btn btn-warning edit-btn" 
+                                    data-id="${user.user_id}" 
+                                    data-name="${user.name}" 
+                                    data-email="${user.email}" 
+                                    data-address="${user.address}" 
+                                    data-mobile="${user.mobile_no}">Edit</button>
+                            </td>
+                        </tr>`;
+          });
+          $("#userTableBody").html(tableBody);
+        });
+      }
+
+      $(document).ready(function () {
+        fetchUsers();
+
+        // Open Add User Modal
+        $("#addUserBtn").click(function () {
+          $("#addUserModal").modal("show");
+        });
+
+        // Save User
+        $("#saveUserBtn").click(function () {
+          let userData = {
+            name: $("#addUserName").val(),
+            email: $("#addUserEmail").val(),
+            address: $("#addUserAddress").val(),
+            mobile_no: $("#addUserMobile").val(),
+            password: $("#addUserPassword").val(),
+          };
+          $.ajax({
+            url: "http://127.0.0.1:5000/user/add",
+            type: "POST",
+            contentType: "application/json", // Ensure JSON content type
+            data: JSON.stringify(userData),
+            success: function (response) {
+              console.log("User added successfully:", response);
+              $("#addUserModal").modal("hide");
+        fetchUsers();
+            },
+            error: function (xhr) {
+              console.error("Error:", xhr.responseText);
+            },
+          });
+        });
+
+        // Open Edit Modal and Fill Data
+        $(document).on("click", ".edit-btn", function () {
+          $("#editUserId").val($(this).data("id"));
+          $("#editUserName").val($(this).data("name"));
+          $("#editUserEmail").val($(this).data("email"));
+          $("#editUserAddress").val($(this).data("address"));
+          $("#editUserMobile").val($(this).data("mobile"));
+          $("#editUserModal").modal("show");
+        });
+
+        // Update User
+        $("#updateUserBtn").click(function () {
+          let userId = $("#editUserId").val();
+          let updatedData = {
+            name: $("#editUserName").val(),
+            email: $("#editUserEmail").val(),
+            address: $("#editUserAddress").val(),
+            mobile_no: $("#editUserMobile").val(),
+          };
+          $.ajax({
+            url: `http://127.0.0.1:5000/user/${userId}/update`,
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(updatedData),
+            success: function () {
+                alert("User updated successfully!");
+                $("#editUserModal").modal("hide");
+                fetchUsers();
+            },
+            error: function (xhr) {
+                alert("Error updating user: " + xhr.responseText);
+            },
+          });
+        });
+
+        // Toggle User Status
+        $(document).on("click", ".toggle-status", function () {
+          let userId = $(this).data("id");
+          $.ajax({
+            url: `http://127.0.0.1:5000/user/${userId}/toggle`,
+            type: "PUT",
+            success: function () {
+              fetchUsers();
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

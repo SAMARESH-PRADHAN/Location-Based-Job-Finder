@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
+
+  <title>LBJF</title>
+  <script src="js/jquery-3.7.1.min.js"></script>
+
+  <!-- bootstrap core css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ 
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,600,700&display=swap"
+    rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+  <style>
+    .swal2-container {
+    z-index: 11000 !important;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <div class="hero_bg_box">
+      <div class="img-box">
+        <img src="images/hero.webp" alt="" />
+      </div>
+    </div>
+
+    <header class="header_section">
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <a class="navbar-brand" href="index.html">
+              <span> LBJF </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class=""></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#about-sec"> About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#service-sec"> Services </a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="#"> Guards </a>
+                </li> -->
+                <li class="nav-item">
+                  <a class="nav-link" href="#contact-sec">Contact us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Login</a>
+                </li>
+              </ul>
+            </div>
+            <div class="modal fade loginModal" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+              tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">
+                      Login
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="loginForm">
+                      <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="loginEmail"  />
+                      </div>
+                      <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword"  />
+                      </div>
+                      <div class="mb-3 text-end">
+                        <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                      </div>
+                      
+                      <button type="submit" class="btn btn-primary w-100" id="loginButton">
+                        Login
+                      </button>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <p>
+                      Don't have an account?
+                      <button class="btn btn-link p-0" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">
+                        Sign Up
+                      </button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true"
+              aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">
+                      Signup
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="signup_form" id="signupForm">
+                      <div class="mb-3">
+                        <label for="signupFullname" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="signupFullname" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="signupEmail" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="signupNumber" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="signupNumber" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="signupAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="signupAddress" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="signupConfirmPassword" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="signupConfirmPassword" class="form-label">Role</label><br>
+                        <input type="radio" name="role" value=2 /> User
+                        <input type="radio" name="role" value=3 /> Agency
+                      </div>
+
+                      <button type="submit" class="btn btn-success w-100">
+                        Sign Up
+                      </button>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <p>
+                      Already have an account?
+                      <button class="btn btn-link p-0" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                        Login
+                      </button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section">
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="detail-box">
+                    <h1>
+                      Find Jobs Near You <br />
+                      <span>Effortlessly & Quickly</span>
+                    </h1>
+                    <p>
+                      Discover job opportunities in your local area with ease.
+                      No more endless searches—just the right job, in the
+                      right place, at the right time.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="detail-box">
+                    <h1>
+                      Smart Job Matching <br />
+                      <span>Tailored for You</span>
+                    </h1>
+                    <p>
+                      Our intelligent system connects you with jobs that match
+                      your skills and location. Say goodbye to irrelevant job
+                      listings and hello to personalized opportunities.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="detail-box">
+                    <h1>
+                      Job Hunting Made Easy <br />
+                      <span>Apply with Confidence</span>
+                    </h1>
+                    <p>
+                      Whether you're looking for full-time, part-time, or
+                      freelance work, our platform makes the process seamless.
+                      Start your journey to a better career today.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container idicator_container">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+    <!-- end slider section -->
+  </div>
+
+  <!-- about section -->
+  <section id="about-sec" class="about_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 px-0">
+          <div class="img_container">
+            <div class="img-box">
+              <img src="images/about.webp" alt="About Us" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 px-0">
+          <div class="detail-box">
+            <div class="heading_container">
+              <h2>Who Are We?</h2>
+            </div>
+            <p>
+              Location-Based Job Finder is designed to bridge the gap between
+              job seekers and employers by offering a smart, location-based
+              job search experience. Our platform ensures that you find the
+              right opportunities near you, tailored to your skills and
+              preferences. Whether you're looking for full-time, part-time, or
+              freelance work, we've got you covered.
+            </p>
+            <p>
+              With an intuitive interface and real-time job listings, we make
+              job hunting effortless. Start exploring now and take the next
+              step in your career with confidence.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end about section -->
+
+  <!-- service section -->    
+
+  <!-- service section -->
+  <section id="service-sec" class="service_section layout_padding">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>Our Services</h2>
+        <p class="subheading">
+          Empowering companies to connect with job seekers across all
+          locations
+        </p>
+      </div>
+      <div class="row">
+        <!-- Employer Job Posting -->
+        <div class="col-md-4">
+          <div class="box">
+            <div class="img-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 3h-8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"></path>
+              </svg>
+            </div>
+            <div class="detail-box">
+              <h6>Employer Job Posting</h6>
+              <p>
+                We offer a seamless platform for companies and agencies to
+                post job vacancies effortlessly. Whether you need full-time
+                employees, part-time workers, or freelancers, our system
+                ensures your listing reaches the right candidates quickly.
+              </p>
+              <p>
+                Employers can specify job requirements, company details, and
+                contact options, making it easy for job seekers to apply
+                directly without unnecessary delays.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Location-Based Job Search -->
+        <div class="col-md-4">
+          <div class="box">
+            <div class="img-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5 7 13 7 13s7-8 7-13c0-3.87-3.13-7-7-7z"></path>
+                <circle cx="12" cy="9" r="2.5"></circle>
+              </svg>
+            </div>
+            <div class="detail-box">
+              <h6>Location-Based Job Search</h6>
+              <p>
+                Our smart location-based search feature allows job seekers to
+                find work opportunities near them. Simply enter your city,
+                state, or zip code, and browse job listings tailored to your
+                preferred location.
+              </p>
+              <p>
+                Whether you're looking for remote work, hybrid jobs, or
+                in-office roles, our filtering system helps you narrow down
+                opportunities that best match your lifestyle and professional
+                goals.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Direct Employer Contact -->
+        <div class="col-md-4">
+          <div class="box">
+            <div class="img-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M22 16.92V19a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.16A19.42 19.42 0 0 1 3.16 8.81 19.79 19.79 0 0 1 0 2.18 2 2 0 0 1 2 0h2.08a2 2 0 0 1 2 1.72 14.92 14.92 0 0 0 .91 3.69 2 2 0 0 1-.45 2.15L4.5 10.5a16.57 16.57 0 0 0 9 9l2.95-2.05a2 2 0 0 1 2.15-.45 14.92 14.92 0 0 0 3.69.91 2 2 0 0 1 1.72 2z">
+                </path>
+              </svg>
+            </div>
+            <div class="detail-box">
+              <h6>Direct Employer Contact</h6>
+              <p>
+                We eliminate the middleman, allowing job seekers to contact
+                employers directly. Each job listing includes contact details
+                so you can apply, negotiate terms, or ask questions without
+                waiting for third-party approvals.
+              </p>
+              <p>
+                This feature speeds up the hiring process and ensures that
+                employers and candidates can connect efficiently, leading to
+                faster placements and better career opportunities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+  <section class="contact_section layout_padding" id="contact-sec">
+    <div class="contact_bg_box">
+      <div class="img-box">
+        <img src="images/contact.webp" alt="" />
+      </div>
+    </div>
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>Get In touch</h2>
+      </div>
+      <div class="">
+        <div class="row">
+          <div class="col-md-7 mx-auto">
+            <form action="#" id="contactForm">
+              <div class="contact_form-container">
+                <div>
+                  <div>
+                    <input type="text" placeholder="Full Name" />
+                  </div>
+                  <div>
+                    <input type="email" placeholder="Email" />
+                  </div>
+                  <div>
+                    <input type="number" placeholder="Phone Number" />
+                  </div>
+                  <div class="">
+                    <input type="text" placeholder="Message" class="message_input" />
+                  </div>
+                  <div class="btn-box">
+                    <button type="submit">Send</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- info section -->
+  <section id="info-sec" class="info_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="info_logo">
+            <a class="navbar-brand" href="index.html">
+              <span>LBJF</span>
+            </a>
+            <p>
+              Your go-to platform for finding jobs based on your preferred
+              location and job type. Connect directly with employers and land
+              your dream job effortlessly.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info_links">
+            <h5>Location</h5>
+            <div class="frame">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.138421446149!2d85.8112116!3d20.3079468!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a1909b1bfffffff%3A0xd38745b6e9c683c2!2sODISHA%20SPACE%20APPLICATIONS%20CENTRE%20(ORSAC)!5e1!3m2!1sen!2sin!4v1739172397640!5m2!1sen!2sin"
+                width="250" height="170" style="border: 0" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info_info">
+            <h5>Contact Us</h5>
+          </div>
+          <div class="info_contact">
+            <a href="" class="">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>   
+              <span>Bhubaneswar, Odisha, India</span>
+            </a>
+            <a href="" class="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span> Call : +91 9861630622 </span>
+            </a>
+            <a href="" class="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span> adityanarayanbarik@gmail.com </span>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info_form">
+            <h5>Social Media</h5>
+            
+            <div class="social_box">
+              <a href="">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-youtube" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info_section -->
+  <button id="scrollTopBtn" onclick="scrollToTop()">↑ Top</button>
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+    <p>
+      &copy; <span id="currentYear"></span> All Rights Reserved. Design by
+      <a href="https://html.design/">Free Html Templates</a>
+    </p>
+  </footer>
+  <!-- footer section -->
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs@1.1.0/dist/purecounter_vanilla.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="js/bootstrap.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+
+</html>

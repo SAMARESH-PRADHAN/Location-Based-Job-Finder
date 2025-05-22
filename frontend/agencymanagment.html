@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+       #addAgencyBtn {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    #addAgencyBtn:hover {
+        background: linear-gradient(135deg, #a777e3, #6e8efb);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        color: rgb(193, 219, 154);
+    }
+
+    #addAgencyBtn::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 300%;
+        top: -100%;
+        left: -100%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(45deg);
+        transition: all 0.75s ease-in-out;
+    }
+
+    #addAgencyBtn:hover::after {
+        left: 200%;
+        top: 200%;
+        color: rgb(0, 0, 0);
+    }
+    </style>
+    
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Agency Management</h2>
+        <button id="addAgencyBtn" class="btn mb-3"> <i class="fas fa-plus-circle mr-2"></i> Add Agency</button>
+        <table class="table table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Mobile No</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="agencyTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- Add Agency Modal -->
+    <div class="modal fade" id="addAgencyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Agency</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="addAgencyName" class="form-control mb-2" placeholder="Name">
+                    <input type="email" id="addAgencyEmail" class="form-control mb-2" placeholder="Email">
+                    <input type="text" id="addAgencyAddress" class="form-control mb-2" placeholder="Address">
+                    <input type="text" id="addAgencyMobile" class="form-control mb-2" placeholder="Mobile No">
+                    <input type="password" id="addAgencyPassword" class="form-control mb-2" placeholder="Password">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="saveAgencyBtn" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Agency Modal -->
+    <div class="modal fade" id="editAgencyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Agency</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editAgencyId">
+                    <input type="text" id="editAgencyName" class="form-control mb-2" placeholder="Name">
+                    <input type="email" id="editAgencyEmail" class="form-control mb-2" placeholder="Email">
+                    <input type="text" id="editAgencyAddress" class="form-control mb-2" placeholder="Address">
+                    <input type="text" id="editAgencyMobile" class="form-control mb-2" placeholder="Mobile No">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="updateAgencyBtn" class="btn btn-success">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/agencymanagement.js"></script>
+</body>
+</html>

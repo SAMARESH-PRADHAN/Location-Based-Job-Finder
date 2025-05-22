@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+    #btnn-animated {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 50px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    #btnn-animated:hover {
+        background: linear-gradient(135deg, #a777e3, #6e8efb);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        color: rgb(193, 219, 154);
+    }
+
+    #btnn-animated::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 300%;
+        top: -100%;
+        left: -100%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(45deg);
+        transition: all 0.75s ease-in-out;
+    }
+
+    #btnn-animated:hover::after {
+        left: 200%;
+        top: 200%;
+        color: rgb(0, 0, 0);
+    }
+</style>
+
+   
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Job Management</h2>
+        <button class="btn mb-3" data-toggle="modal" data-target="#addJobModal" id="btnn-animated">
+            <i class="fas fa-plus-circle mr-2"></i> Add Job
+        </button>
+        
+        <table class="table table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>S.No</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Requirements</th>
+                    <th>Salary</th>
+                    <th>Agency</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="jobTableBody"></tbody>
+        </table>
+        <nav>
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+        
+    </div>
+
+    <!-- Add Job Modal -->
+    <div class="modal fade" id="addJobModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Job</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="jobForm">
+                        <input type="hidden" id="jobId">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="tittle" class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="description" class="form-control" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Requirements</label>
+                            <textarea id="requirements" class="form-control" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Salary</label>
+                            <input type="number" id="salary" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Agency</label>
+                            <select id="agency" class="form-control" ></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="category" class="form-control" ></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <select id="location" class="form-control" ></select>
+                        </div>
+                        <button type="submit" class="btn btn-success" id="addbtn">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let allJobs = [];
+            let currentPage = 1;
+            const jobsPerPage = 4;
+
+            fetchJobs();
+            loadDropdowns();
+
+function fetchJobs() {
+    $.get('http://127.0.0.1:5000/jobs', function(data) {
+        allJobs = data;
+        renderJobs();
+        renderPagination();
+    });
+}
+
+function renderJobs() {
+    const startIndex = (currentPage - 1) * jobsPerPage;
+    const endIndex = startIndex + jobsPerPage;
+    const jobsToShow = allJobs.slice(startIndex, endIndex);
+
+    let rows = '';
+    jobsToShow.forEach((job, index) => {
+        const serialNumber = startIndex + index + 1;
+        rows += `<tr>
+            <td>${serialNumber}</td>
+            <td>${job.tittle}</td>
+            <td>${job.description}</td>
+            <td>${job.requirements}</td>
+            <td>${job.monthly_remuneration}</td>
+            <td>${job.agency_name}</td>
+            <td>${job.category_name}</td>
+            <td>${job.location_name}</td>
+            <td>
+                <button class="btn ${job.is_active ? 'btn-danger' : 'btn-success'} toggle-status" data-id="${job.job_id}">
+                    ${job.is_active ? 'Deactivate' : 'Activate'}
+                </button>
+                <button class="btn btn-warning edit-job" data-id="${job.job_id}">Edit</button>
+            </td>
+        </tr>`;
+    });
+
+    $('#jobTableBody').html(rows);
+}
+
+function renderPagination() {
+    const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+    let paginationHtml = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        paginationHtml += `
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#">${i}</a>
+            </li>
+        `;
+    }
+
+    $('#pagination').html(paginationHtml);
+}
+
+            function loadDropdowns() {
+                $.get('http://127.0.0.1:5000/agencies', function(data) {
+                    let options = '<option value="">Select Agency</option>';
+                    data.forEach(agency => options += `<option value="${agency.agency_id}">${agency.name}</option>`);
+                    $('#agency').html(options);
+                });
+
+                $.get('http://127.0.0.1:5000/categories', function(data) {
+                    let options = '<option value="">Select Category</option>';
+                    data.forEach(category => options += `<option value="${category.category_id}">${category.category_name}</option>`);
+                    $('#category').html(options);
+                });
+
+                $.get('http://127.0.0.1:5000/locations', function(data) {
+                    let options = '<option value="">Select Location</option>';
+                    data.forEach(location => options += `<option value="${location.location_id}">${location.location_name}</option>`);
+                    $('#location').html(options);
+                });
+            }
+
+            
+
+            // Handle Edit Button Click
+$(document).on("click", ".edit-job", function() {
+    let jobId = $(this).data("id");
+
+    $.get(`http://127.0.0.1:5000/jobs/${jobId}`, function(job) {
+        $("#jobId").val(job.job_id);
+        $("#tittle").val(job.tittle);
+        $("#description").val(job.description);
+        $("#requirements").val(job.requirements);
+        $("#salary").val(job.monthly_remuneration);
+        $("#agency").val(job.agency_id);
+        $("#category").val(job.category_id);
+        $("#location").val(job.location_id);
+
+        // Change button text to "Update" instead of "Save"
+        $("#addbtn").text("Update").attr("data-mode", "edit");
+
+        // Show modal
+        $("#addJobModal").modal("show");
+    });
+});
+
+// Handle Form Submit for Add/Edit
+$("#jobForm").submit(function(e) {
+    e.preventDefault();
+
+    let jobId = $("#jobId").val();
+    let jobData = {
+        tittle: $("#tittle").val(),
+        description: $("#description").val(),
+        requirements: $("#requirements").val(),
+        monthly_remuneration: $("#salary").val(),
+        agency_id: $("#agency").val(),
+        category_id: $("#category").val(),
+        location_id: $("#location").val()
+    };
+
+    let url = "http://127.0.0.1:5000/jobs/add";
+    let method = "POST";
+
+    if (jobId) {
+        jobData.job_id = jobId;
+        url = "http://127.0.0.1:5000/jobs/update";
+        method = "PUT";
+    }
+
+    $.ajax({
+        url: url,
+        type: method,
+        contentType: "application/json",
+        data: JSON.stringify(jobData),
+        success: function(response) {
+            $("#addJobModal").modal("hide");
+            fetchJobs(); // Refresh job list
+        },
+        error: function(xhr) {
+            console.error("Error:", xhr.responseText);
+        }
+    });
+});
+    // Handle Toggle Status Click
+$(document).on("click", ".toggle-status", function() {
+    let jobId = $(this).data("id");
+
+    $.ajax({
+        url: `http://127.0.0.1:5000/jobs/toggle-status/${jobId}`,
+        type: "PUT",
+        success: function(response) {
+            fetchJobs(); // Refresh job list after status change
+        },
+        error: function(xhr) {
+            console.error("Error:", xhr.responseText);
+        }
+    });
+});
+// Pagination Click
+$(document).on('click', '#pagination .page-link', function(e) {
+    e.preventDefault();
+    currentPage = parseInt($(this).text());
+    renderJobs();
+    renderPagination();
+});
+
+
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Feedback Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+  <style>
+    /* Background & Layout */
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    h2, h4 {
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+    }
+
+    .container {
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card Styling */
+    .feedback-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 10px 0;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .feedback-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+    }
+
+    .stars {
+      color: gold;
+      font-size: 1.2rem;
+    }
+
+    .filter-section {
+      margin: 20px 0;
+    }
+
+    .filter-controls {
+      display: flex;
+      /* flex-wrap: wrap; */
+      gap: 15px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .form-control, .form-select {
+      min-width: 150px;
+      border-radius: 10px;
+      border: none;
+      padding: 8px 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .form-control:focus, .form-select:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Tabs */
+    .nav-tabs .nav-link.active {
+      background: #fff;
+      color: #333;
+      border-radius: 10px 10px 0 0;
+      font-weight: bold;
+    }
+
+    .nav-tabs .nav-link {
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    .nav-tabs .nav-link:hover {
+      opacity: 0.8;
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+      background-color: #fff;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      margin: 0 4px;
+      transition: 0.3s;
+    }
+
+    .pagination .page-item.active .page-link {
+      background-color: #ffda77;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .pagination .page-link:hover {
+      background-color: #ffeb99;
+    }
+
+    /* Small tweaks */
+    label {
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+    .tab-pane {
+      animation: fadeInTab 0.4s ease;
+    }
+
+    @keyframes fadeInTab {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container py-5">
+    <h2 class="text-center mb-4">🌟 Admin Feedback Management</h2>
+
+    <ul class="nav nav-tabs mb-3" id="feedbackTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-feedback" type="button" role="tab">👤 User Feedback</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="agency-tab" data-bs-toggle="tab" data-bs-target="#agency-feedback" type="button" role="tab">🏢 Agency Feedback</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="feedbackTabsContent">
+      <!-- User Feedback Tab -->
+      <div class="tab-pane fade show active" id="user-feedback" role="tabpanel">
+        <div class="filter-section">
+          <h4>User Feedbacks</h4>
+          <div class="filter-controls">
+            <label>From</label>
+            <input type="date" id="user-from-date" class="form-control" />
+            <label>To</label>
+            <input type="date" id="user-to-date" class="form-control" />
+            <select id="user-rating-filter" class="form-select">
+              <option value="">All Ratings</option>
+              <option value="5">5 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="2">2 Stars</option>
+              <option value="1">1 Star</option>
+            </select>
+          </div>
+        </div>
+        <div id="user-feedback-list"></div>
+        <nav><ul class="pagination justify-content-center" id="user-pagination"></ul></nav>
+      </div>
+
+      <!-- Agency Feedback Tab -->
+      <div class="tab-pane fade" id="agency-feedback" role="tabpanel">
+        <div class="filter-section">
+          <h4>Agency Feedbacks</h4>
+          <div class="filter-controls">
+            <label>From</label>
+            <input type="date" id="agency-from-date" class="form-control" />
+            <label>To</label>
+            <input type="date" id="agency-to-date" class="form-control" />
+            <select id="agency-rating-filter" class="form-select">
+              <option value="">All Ratings</option>
+              <option value="5">5 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="2">2 Stars</option>
+              <option value="1">1 Star</option>
+            </select>
+          </div>
+        </div>
+        <div id="agency-feedback-list"></div>
+        <nav><ul class="pagination justify-content-center" id="agency-pagination"></ul></nav>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const pageSize = 5;
+    let userFeedbacks = [];
+    let agencyFeedbacks = [];
+
+    async function fetchFeedbacks() {
+      try {
+        const res = await fetch("http://127.0.0.1:5000/all-feedbacks");
+        const data = await res.json();
+        userFeedbacks = data.user_feedbacks || [];
+        agencyFeedbacks = data.agency_feedbacks || [];
+        renderFeedbacks();
+      } catch (err) {
+        console.error("Error fetching feedbacks:", err);
+      }
+    }
+
+    function renderFeedbacks() {
+      renderList('user', userFeedbacks);
+      renderList('agency', agencyFeedbacks);
+    }
+
+    function renderList(type, data) {
+      const ratingFilter = document.getElementById(`${type}-rating-filter`).value;
+      const fromDate = document.getElementById(`${type}-from-date`).value;
+      const toDate = document.getElementById(`${type}-to-date`).value;
+      const container = document.getElementById(`${type}-feedback-list`);
+      const pagination = document.getElementById(`${type}-pagination`);
+
+      let filtered = [...data];
+
+      if (ratingFilter) {
+        filtered = filtered.filter(f => f.rating == ratingFilter);
+      }
+
+      if (fromDate) {
+        filtered = filtered.filter(f => new Date(f.created_at) >= new Date(fromDate));
+      }
+
+      if (toDate) {
+        const to = new Date(toDate);
+        to.setHours(23, 59, 59, 999);
+        filtered = filtered.filter(f => new Date(f.created_at) <= to);
+      }
+
+      const pageCount = Math.ceil(filtered.length / pageSize);
+      const currentPage = 1;
+      showPage(filtered, container, pagination, pageCount, currentPage);
+    }
+
+    function showPage(feedbacks, container, pagination, totalPages, page) {
+      container.innerHTML = "";
+      const start = (page - 1) * pageSize;
+      const end = start + pageSize;
+      const items = feedbacks.slice(start, end);
+
+      for (const item of items) {
+        const stars = '★'.repeat(item.rating) + '☆'.repeat(5 - item.rating);
+        const card = `
+          <div class="feedback-card">
+            <h5><i class="fa fa-user"></i> ${item.name}</h5>
+            <div class="stars mb-2">${stars}</div>
+            <p>${item.feedback_text}</p>
+            <small>${new Date(item.created_at).toLocaleString()}</small>
+          </div>
+        `;
+        container.innerHTML += card;
+      }
+
+      pagination.innerHTML = '';
+      for (let i = 1; i <= totalPages; i++) {
+        pagination.innerHTML += `
+          <li class="page-item ${i === page ? 'active' : ''}">
+            <a class="page-link" href="#" onclick="showPage(${JSON.stringify(feedbacks)}, document.getElementById('${container.id}'), document.getElementById('${pagination.id}'), ${totalPages}, ${i})">${i}</a>
+          </li>`;
+      }
+    }
+
+    // Filters
+    ["user", "agency"].forEach(type => {
+      document.getElementById(`${type}-rating-filter`).addEventListener("change", () => renderList(type, type === 'user' ? userFeedbacks : agencyFeedbacks));
+      document.getElementById(`${type}-from-date`).addEventListener("change", () => renderList(type, type === 'user' ? userFeedbacks : agencyFeedbacks));
+      document.getElementById(`${type}-to-date`).addEventListener("change", () => renderList(type, type === 'user' ? userFeedbacks : agencyFeedbacks));
+    });
+
+    fetchFeedbacks();
+  </script>
+</body>
+</html>
